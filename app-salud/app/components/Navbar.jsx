@@ -22,12 +22,21 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" href="/">MindCare</Link>
+        <Link className="navbar-brand" href="/">
+        <Image
+            src="/images/sanamente.png" 
+            alt="Logo Bildy" 
+            width={100} 
+            height={50} 
+            className='logo'
+        />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

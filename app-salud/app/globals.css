@@ -55,7 +55,7 @@ body {
 .link-start a {
   display: inline-block;
   padding: 12px 24px;
-  background-color: #fe9263;
+  background-color: #f38170;
   color: #fff; 
   font-size: 16px;
   font-weight: bold;
@@ -67,9 +67,9 @@ body {
 
 .link-start a:hover {
   background-color: #f7f7f7; 
-  border: 1px solid #fe9263;
+  border: 1px solid #f38170;
   transform: translateY(-2px);
-  color: #fe9263; 
+  color: #f38170; 
 }
 
 .link-start a:active {
