@@ -19,3 +19,65 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.main {
+    background-image: url('https://www.quironsalud.com/blogs/es/blogs-quironsalud/sana-mente/10-octubre-dia-mundial-salud-mental-99c34.ficheros/3443645-d%C3%ADa%20mundial%20salud%20mental.JPG?width=1084&height=602&aspectRatio=true');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+}
+.logo{
+    text-align: center;
+}
+.div-start {
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 16px; 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); 
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+}
+
+.div-start:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); 
+}
+
+
+.link-start a {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #fe9263;
+    color: #fff; 
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.link-start a:hover {
+    background-color: #f7f7f7; 
+    border: 1px solid #fe9263;
+    transform: translateY(-2px);
+    color: #fe9263; 
+
+}
+
+.link-start a:active {
+    background-color: #003f7f; 
+    transform: translateY(0); 
+}
+
+
+.user-portal{
+    background-color: rgb(227, 227, 231);
+}
