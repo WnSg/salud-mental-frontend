@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" href="#">MindCare</Link>
+        <Link className="navbar-brand" href="/">MindCare</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -45,7 +45,7 @@ const Navbar = () => {
               <Link className="nav-link active" aria-current="page" href="/">Inicio</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/link">Tests</Link>
+              <Link className="nav-link" href="/test">Tests</Link>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -58,14 +58,14 @@ const Navbar = () => {
                 Recursos
               </a>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" href="#">Estres</Link></li>
-                <li><Link className="dropdown-item" href="#">Ansiedad</Link></li>
+                <li><Link className="dropdown-item" href="/recursos/estres">Estrés</Link></li>
+                <li><Link className="dropdown-item" href="/recursos/ansiedad">Ansiedad</Link></li>
                 <li><hr className="dropdown-divider" /></li>
-                {/* <li><Link className="dropdown-item" href="#">Something else here</Link></li> */}
+                <li><Link className="dropdown-item" href="#">Something else here</Link></li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="#">Mindfulness</Link>
+              <Link className="nav-link" href="/mindfulness">Mindfulness</Link>
             </li>
           </ul>
           <form className="d-flex" role="search">
