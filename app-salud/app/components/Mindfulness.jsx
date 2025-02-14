@@ -20,7 +20,7 @@ const mindfulnessData = [
     id: 3,
     title: 'Reconocer emociones',
     description: 'Exploramos emociones que sentimos de una forma abierta y sin juzgar.',
-    link: '/mindfulness/estres',
+    link: '/mindfulness/emociones',
     image: '/images/emociones.jpg'
   }
 ];
@@ -28,7 +28,7 @@ const mindfulnessData = [
 const MindfulnessSection = () => {
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4">Sección de Mindfulness</h2>
+      <h2 className="text-center mb-4">Mindfulness</h2>
       <div className="row">
         {mindfulnessData.map((item) => (
           <div key={item.id} className="col-md-4 mb-4">
