@@ -1,3 +1,6 @@
+'use client'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import './Mindfulness.css';
 
@@ -26,6 +29,24 @@ const mindfulnessData = [
 ];
 
 const MindfulnessSection = () => {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Verificamos si el token está presente en localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      setIsAuthenticated(true); // Si hay un token, el usuario está autenticado
+    } else {
+      router.push("/users/login"); // Si no hay token, redirige al login
+    }
+  }, [router]);
+
+  if (!isAuthenticated) {
+    return <p>Cargando...</p>; // muestra un mensaje de "Cargando..." mientras verificas el token
+  }
+
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">Mindfulness</h2>

@@ -18,7 +18,10 @@ export default function RootLayout({ children }) {
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
         />
-         <link rel="icon" href="/favicon.ico" />
+         <script
+          src="https://kit.fontawesome.com/6986216daf.js"
+          crossOrigin="anonymous"
+        ></script>
         
       </head>
       <body className={inter.className}>

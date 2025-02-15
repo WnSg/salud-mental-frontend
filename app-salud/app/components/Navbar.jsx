@@ -88,6 +88,13 @@ const Navbar = () => {
               Search
             </button>
           </form>
+          <li className="nav-item">
+               <Link href="/users/register">Registro</Link>
+          </li>
+          <li className="nav-item">
+               <Link href="/users/login">Login </Link>
+          </li>
+          
         </div>
       </div>
     </nav>
