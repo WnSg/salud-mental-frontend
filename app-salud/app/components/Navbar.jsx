@@ -1,41 +1,34 @@
-// import Link from "next/link"
-// import "./Navbar.css"
-// // import Image from "next/image"
+"use client"; 
 
-// export default function Navbar() {
-//     return (
-//         <div >
-//             <nav className="navbar">
-//                 <ul className="navbar-menu">
-//                     <li><Link href='/'><Image src="/images/logo-bildy.png" alt="Logo Bildy" width={100}  height={50}/></Link></li>
-//                     <li><Link href="/">Recursos</Link></li>
-//                     <li><Link href="/">Test</Link></li>
-//                     <li><Link  href="/">Mindfullness</Link></li>
-//                     <li><Link href="/">Sign In</Link></li> 
-//                     <li><Link href="/" >Sign Out</Link></li>
-//                 </ul>
-//             </nav>
-//         </div>
-//     )
-  
-// }
-
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import UserIcon from "./UserIcon";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token); // Si el token existe, el usuario está logueado
+  }, []); // se ejecuta una vez cuando el componente se monta
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setIsLoggedIn(false);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <Link className="navbar-brand" href="/">
-        <Image
-            src="/images/sanamente.png" 
-            alt="Logo Bildy" 
-            width={100} 
-            height={50} 
-            className='logo'
-        />
+          <Image
+            src="/images/sanamente.png"
+            alt="Logo Sanamente"
+            width={100}
+            height={50}
+            className="logo"
+          />
         </Link>
         <button
           className="navbar-toggler"
@@ -51,10 +44,14 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" href="/">Home</Link>
+              <Link className="nav-link active" aria-current="page" href="/">
+                Home
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/test">Tests</Link>
+              <Link className="nav-link" href="/test">
+                Tests
+              </Link>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -69,8 +66,6 @@ const Navbar = () => {
               <ul className="dropdown-menu">
                 <li><Link className="dropdown-item" href="/recursos/estres">Estrés</Link></li>
                 <li><Link className="dropdown-item" href="/recursos/ansiedad">Ansiedad</Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" href="#">Something else here</Link></li>
               </ul>
             </li>
             <li className="nav-item">
@@ -88,13 +83,24 @@ const Navbar = () => {
               Search
             </button>
           </form>
-          <li className="nav-item">
-               <Link href="/users/register">Registro</Link>
-          </li>
-          <li className="nav-item">
-               <Link href="/users/login">Login </Link>
-          </li>
-          
+
+          {/* Mostrar el icono de perfil y logout si el usuario está logueado */}
+          {isLoggedIn ? (
+            <>
+              <li className="nav-item">
+                <UserIcon />
+              </li>
+              <li className="nav-item">
+                <Link href="/" onClick={handleLogout} className="btn btn-outline-danger">
+                  Salir
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="nav-item">
+              <Link href="/users/login">Login</Link>
+            </li>
+          )}
         </div>
       </div>
     </nav>

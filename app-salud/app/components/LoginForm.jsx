@@ -1,20 +1,13 @@
-'use client'
+"use client";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+// import { jwtDecode } from "jwt-decode";
 
 export default function LoginForm() {
   const { register, handleSubmit } = useForm();
   const [responseMessage, setResponseMessage] = useState("");
   const router = useRouter();
-
-  // Verifica si estamos en el cliente 
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Esto asegura que el código solo se ejecute en el cliente
-    setIsClient(true);
-  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -32,16 +25,20 @@ export default function LoginForm() {
       const result = await response.json();
 
       if (response.ok) {
-        // Al recibir la respuesta con el token, lo guardamos en localStorage
-        const token = result.token; // Obtenemos el token desde la respuesta
-        if (token && isClient) {
-          localStorage.setItem("authToken", token); // Guardamos el token solo en el cliente
+        const token = result.token; // Obtenemos el token
+        if (token) {
+          localStorage.setItem("authToken", token); // Guardamos el token en localStorage
+
+          // Decodificar el token para obtener el ID del usuario
+          // const decodedToken = jwtDecode(token);
+
           setResponseMessage("¡Login exitoso!");
 
-          // Redirigimos al dashboard después de guardar el token
+          // Redirigimos al perfil del usuario
           setTimeout(() => {
-            router.push("/");
+            window.location.reload(); //  recarga para actualizar el estado del Navbar
           }, 1500);
+          router.push("/");
         }
       } else {
         setResponseMessage(result.message || "Error en el login.");
