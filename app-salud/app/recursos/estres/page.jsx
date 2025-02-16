@@ -1,6 +1,4 @@
 
-
-
 export default function StressPage() {
     return (
         <main className="main flex items-center justify-center md:h-screen">

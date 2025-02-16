@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link"; // Importamos Link para crear enlaces
 
 const UserProfilePage = ({ params }) => {
   const [unwrappedParams, setUnwrappedParams] = useState(null);
 
-  
   useEffect(() => {
     const fetchParams = async () => {
       const resolvedParams = await params;
+
       setUnwrappedParams(resolvedParams); // Almacenamos el valor de params resuelto
     };
     fetchParams();
@@ -20,13 +21,14 @@ const UserProfilePage = ({ params }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!unwrappedParams) return; 
+    if (!unwrappedParams) return;
 
     const { id } = unwrappedParams; // Accedemos al ID
 
     const fetchUserData = async () => {
-      const token = localStorage.getItem("authToken");
 
+      const token = localStorage.getItem("authToken");
+      console.log(token)
       if (!token) {
         router.push("/users/login"); // Si no hay token, redirigir al login
         return;
@@ -62,7 +64,7 @@ const UserProfilePage = ({ params }) => {
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
-
+// console.log(userData.id)
   return (
     <div className="user-profile">
       <h2>Perfil de Usuario</h2>
@@ -72,6 +74,11 @@ const UserProfilePage = ({ params }) => {
       <p><strong>Género:</strong> {userData.gender}</p>
       <p><strong>Nacionalidad:</strong> {userData.nationality}</p>
       <p><strong>Registrado el:</strong> {new Date(userData.created_at).toLocaleDateString()}</p>
+
+      {/* Enlace para editar los datos del usuario */}
+      <Link href={`/users/udp/${userData.id}`} className="btn btn-outline-primary">
+        Editar Perfil
+      </Link>
     </div>
   );
 };

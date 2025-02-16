@@ -28,6 +28,7 @@ const Navbar = () => {
             width={100}
             height={50}
             className="logo"
+            priority
           />
         </Link>
         <button
