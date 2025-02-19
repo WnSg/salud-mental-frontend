@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const EditUserProfile = ({ params }) => {
   const router = useRouter();
@@ -13,7 +14,6 @@ const EditUserProfile = ({ params }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState(null);
 
-  // Verificar si el usuario está autenticado
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -24,19 +24,13 @@ const EditUserProfile = ({ params }) => {
     }
   }, [router]);
 
-  // Cargar los datos del usuario
   useEffect(() => {
     if (!params || !isAuthenticated) return;
 
     const fetchParams = async () => {
       const resolvedParams = await params;
-      console.log(resolvedParams);
-
       const { id } = resolvedParams;
-      if (!id) {
-        console.log("ID no disponible");
-        return;
-      }
+      if (!id) return;
 
       setUserId(id);
 
@@ -60,8 +54,6 @@ const EditUserProfile = ({ params }) => {
 
           const data = await response.json();
           setUserData(data.user);
-
-          // Llenar el formulario con los datos actuales del usuario
           setValue("first_name", data.user.first_name);
           setValue("last_name", data.user.last_name);
           setValue("age", data.user.age);
@@ -80,7 +72,6 @@ const EditUserProfile = ({ params }) => {
     fetchParams();
   }, [params, isAuthenticated, router, setValue]);
 
-  // Función para actualizar el perfil
   const onSubmit = async (data) => {
     if (!userId) {
       setError("No se pudo obtener el ID del usuario.");
@@ -106,25 +97,32 @@ const EditUserProfile = ({ params }) => {
         throw new Error("Error al actualizar los datos.");
       }
 
-      alert("Datos actualizados con éxito!");
-      router.push(`/users/${userId}`);
+      Swal.fire("Éxito", "Datos actualizados con éxito!", "success").then(() => {
+        router.push(`/users/${userId}`);
+      });
     } catch (err) {
       setError("No se pudo actualizar los datos.");
     }
   };
 
-  // Función para eliminar la cuenta
   const handleDeleteAccount = async () => {
     if (!userId) {
       setError("No se pudo obtener el ID del usuario.");
       return;
     }
 
-    const confirmDelete = window.confirm(
-      "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer."
-    );
+    const confirmDelete = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción no se puede deshacer.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
 
-    if (!confirmDelete) return;
+    if (!confirmDelete.isConfirmed) return;
 
     const token = localStorage.getItem("authToken");
 
@@ -144,76 +142,65 @@ const EditUserProfile = ({ params }) => {
         throw new Error("Error al eliminar la cuenta.");
       }
 
-      alert("Cuenta eliminada con éxito.");
-      localStorage.removeItem("authToken"); // Eliminar token tras borrar cuenta
-      router.push("/users/login");
+      Swal.fire("Cuenta eliminada", "Tu cuenta ha sido eliminada.", "success").then(() => {
+        localStorage.removeItem("authToken");
+        router.push("/users/login");
+      });
     } catch (err) {
       setError("No se pudo eliminar la cuenta.");
     }
   };
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="text-center text-lg">Cargando...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="edit-profile">
-      <h2>Editar Perfil</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="first_name">Nombre</label>
-          <input
-            type="text"
-            {...register("first_name", { required: true })}
-            defaultValue={userData.first_name}
-          />
-        </div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-4">Editar Perfil</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text" {...register("first_name", { required: true })} className="mt-1 p-2 block w-full border border-gray-300 rounded-md" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Apellido</label>
+            <input type="text" {...register("last_name", { required: true })} className="mt-1 p-2 block w-full border border-gray-300 rounded-md" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Edad</label>
+            <input
+              type="number"
+              {...register("age", { required: true })}
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
 
-        <div>
-          <label htmlFor="last_name">Apellido</label>
-          <input
-            type="text"
-            {...register("last_name", { required: true })}
-            defaultValue={userData.last_name}
-          />
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Género</label>
+            <select
+              {...register("gender", { required: true })}
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="Hombre">Hombre</option>
+              <option value="Mujer">Mujer</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
 
-        <div>
-          <label htmlFor="age">Edad</label>
-          <input
-            type="number"
-            {...register("age", { required: true })}
-            defaultValue={userData.age}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="gender">Género</label>
-          <select {...register("gender", { required: true })} defaultValue={userData.gender}>
-            <option value="Hombre">Hombre</option>
-            <option value="Mujer">Mujer</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="nationality">Nacionalidad</label>
-          <input
-            type="text"
-            {...register("nationality", { required: true })}
-            defaultValue={userData.nationality}
-          />
-        </div>
-
-        <button type="submit">Guardar cambios</button>
-      </form>
-
-      <button onClick={handleDeleteAccount} className="btn btn-danger">
-        Eliminar Cuenta
-      </button>
-
-      <Link href={`/users/${userId}`} className="btn btn-outline-danger">
-        Volver
-      </Link>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Nacionalidad</label>
+            <input
+              type="text"
+              {...register("nationality", { required: true })}
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <button type="submit" className="w-full bg-indigo-600 text-white p-2 rounded-md">Guardar cambios</button>
+        </form>
+        <button onClick={handleDeleteAccount} className="w-full bg-red-600 text-white p-2 rounded-md mt-4">Eliminar Cuenta</button>
+        <Link href={`/users/${userId}`} className="block text-center mt-4 text-indigo-600 hover:underline">Volver al perfil</Link>
+      </div>
     </div>
   );
 };
