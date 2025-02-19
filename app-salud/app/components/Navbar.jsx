@@ -48,7 +48,7 @@ const Navbar = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="hover:text-blue-500 transition duration-200 focus:outline-none"
             >
-              Recursos
+              Recursos educativos
             </button>
             {dropdownOpen && (
               <ul className="absolute left-0 mt-2 bg-white shadow-md rounded-lg w-40 p-2 space-y-2">
@@ -62,12 +62,14 @@ const Navbar = () => {
                     Ansiedad
                   </Link>
                 </li>
+                <li>
+                  <Link href="/mindfulness" className="hover:text-blue-500 transition duration-200">
+                        Mindfulness
+                  </Link>
+                </li>
               </ul>
             )}
           </div>
-          <Link href="/mindfulness" className="hover:text-blue-500 transition duration-200">
-            Mindfulness
-          </Link>
         </div>
 
         {/* Barra de búsqueda y botones */}
