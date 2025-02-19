@@ -57,7 +57,7 @@ export default function TestPage() {
             });
             return;
         }
-
+    
         if (Object.keys(selectedAnswers).length !== test.Questions.length) {
             Swal.fire({
                 icon: "info",
@@ -68,23 +68,37 @@ export default function TestPage() {
             });
             return;
         }
-
+    
         const answersArray = Object.values(selectedAnswers);
-        const token = localStorage.getItem("token");
-        
+        const token = localStorage.getItem("authToken");
+    
+        if (!token) {
+            Swal.fire({
+                icon: "warning",
+                title: "Sesión expirada",
+                text: "Por favor inicia sesión nuevamente.",
+                confirmButtonText: "Iniciar sesión",
+                confirmButtonColor: "#3085d6"
+            }).then(() => {
+                router.push("/users/login");
+            });
+            return;
+        }
+    
         try {
-            const response = await axios.post(`${API_URL}/test/${id}/responder`, {
+            const response = await axios.post(`${API_URL}/test/responder`, {
                 userId,
                 testId: id,
                 answers: answersArray
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
                 }
             });
-
+    
             setTestResult(response.data);
-
+    
             Swal.fire({
                 icon: "success",
                 title: "Test Completado",
@@ -92,9 +106,27 @@ export default function TestPage() {
                 confirmButtonText: "Ver resultado",
                 confirmButtonColor: "#3085d6"
             });
-
+    
         } catch (error) {
             console.error("Error al enviar respuestas:", error);
+    
+            if (error.response) {
+                if (error.response.status === 401 || error.response.status === 403) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Sesión expirada",
+                        text: "Por favor inicia sesión nuevamente.",
+                        confirmButtonText: "Iniciar sesión",
+                        confirmButtonColor: "#3085d6"
+                    }).then(() => {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("userId");
+                        router.push("/users/login");
+                    });
+                    return;
+                }
+            }
+    
             Swal.fire({
                 icon: "error",
                 title: "Error",
@@ -104,6 +136,7 @@ export default function TestPage() {
             });
         }
     };
+      
 
     if (loading) return <p className="text-center text-gray-500">Cargando...</p>;
     if (!test) return <p className="text-center text-red-500">No se encontró el test.</p>;
