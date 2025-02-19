@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import UserIcon from "./UserIcon";
 import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
@@ -81,7 +82,7 @@ const Navbar = () => {
           </button>
 
           {/* Botón de Login con icono */}
-          {isLoggedIn ? (
+          {/* {isLoggedIn ? (
             <button
               onClick={handleLogout}
               className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm w-[90px]"
@@ -95,6 +96,30 @@ const Navbar = () => {
             >
               <FaUser className="mr-2" /> Login
             </Link>
+          )} */}
+
+          {/* Mostrar el icono de perfil y logout si el usuario está logueado */}
+          {isLoggedIn ? (
+            <>
+              <li className="nav-item">
+                <UserIcon />
+              </li>
+              <li className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm w-[90px]">
+                <Link href="/" 
+                      onClick={handleLogout} 
+                      className="btn btn-outline-danger">
+                  Salir
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="nav-item">
+              <Link href="/users/login"
+              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm w-[90px]">
+                
+                <FaUser className="mr-2" /> Login
+              </Link>
+            </li>
           )}
         </div>
       </div>

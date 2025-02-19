@@ -15,9 +15,7 @@ export default function EmocionesPage() {
         <source src="/audio/emociones.mp3" type="audio/mp3" />
         Tu navegador no soporta la reproducción de audio.
       </audio>
-      <p className="text">
-        Nos encantaría saber qué te ha parecido esta meditación guiada, si te ha gustado o si piensas que se puede mejorar por favor déjanos un comentario más abajo ¡nos ayudará a que sigamos subiendo nuevas (y mejores) meditaciones gratis!
-      </p>
+
       <Link href="/mindfulness" className="link">
         VOLVER A LAS MEDITACIONES GUIADAS
       </Link>
