@@ -48,13 +48,13 @@ const Navbar = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="hover:text-blue-500 transition duration-200 focus:outline-none"
             >
-              Recursos educativos Educativos
+              Recursos Educativos
             </button>
             {dropdownOpen && (
               <ul className="absolute left-0 mt-2 bg-white shadow-md rounded-lg w-40 p-2 space-y-2">
                 <li>
-                  <Link href="/recursos/estres" className="block hover:text-blue-500">
-                    Estrés
+                  <Link href="/recursos/depresion" className="block hover:text-blue-500">
+                    Depresión
                   </Link>
                 </li>
                 <li>
@@ -63,7 +63,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mindfulness" className="hover:text-blue-500 transition duration-200">
+                  <Link href="/recursos/mindfulness" className="hover:text-blue-500 transition duration-200">
                         Mindfulness
                   </Link>
                 </li>

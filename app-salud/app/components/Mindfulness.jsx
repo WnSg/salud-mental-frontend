@@ -1,73 +1,52 @@
-'use client'
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import './Mindfulness.css';
+"use client"
+import { useState, useEffect } from "react";
 
-const mindfulnessData = [
-  {
-    id: 1,
-    title: 'Reconocer el estrés',
-    description: 'Practicamos localizar y abrirnos a las sensaciones físicas que se crean cuando algo nos estresa.',
-    link: '/mindfulness/estres',
-    image: '/images/estres.jpg'
-  },
-  {
-    id: 2,
-    title: 'Relaja cuerpo y mente',
-    description: 'Ayuda a que nuestra mente también pueda encontrar descanso.',
-    link: '/mindfulness/relajacion',
-    image: '/images/relajacion.jpg'
-  },
-  {
-    id: 3,
-    title: 'Reconocer emociones',
-    description: 'Exploramos emociones que sentimos de una forma abierta y sin juzgar.',
-    link: '/mindfulness/emociones',
-    image: '/images/emociones.jpg'
-  }
-];
-
-const MindfulnessSection = () => {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+const Mindfulness = () => {
+  const [resources, setResources] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Verificamos si el token está presente en localStorage
-    const token = localStorage.getItem("authToken");
+    const fetchResources = async () => {
+      try {
+        const response = await fetch(
+          "https://capstone-salud-mental-backend.onrender.com/resources/getlist?category=mindfulness"
+        );
+        if (!response.ok) {
+          throw new Error("Error al obtener los recursos");
+        }
+        const data = await response.json();
+        setResources(data.resources || []);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (token) {
-      setIsAuthenticated(true); // Si hay un token, el usuario está autenticado
-    } else {
-      router.push("/users/login"); // Si no hay token, redirige al login
-    }
-  }, [router]);
+    fetchResources();
+  }, []);
 
-  if (!isAuthenticated) {
-    return <p>Cargando...</p>; // muestra un mensaje de "Cargando..." mientras verificas el token
-  }
+  if (loading) return <p>Cargando recursos...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="container my-5">
-      <h2 className="text-center mb-4">Mindfulness</h2>
-      <div className="row">
-        {mindfulnessData.map((item) => (
-          <div key={item.id} className="col-md-4 mb-4">
-            <div className="card" style={{ width: '18rem' }}>
-              <img src={item.image} className="card-img-top" alt={item.title} />
-              <div className="card-body">
-                <h5 className="card-title">{item.title}</h5>
-                <p className="card-text">{item.description}</p>
-                <Link href={item.link} className="custom-btn">
-                  Ver más
-                </Link>
-              </div>
-            </div>
-          </div>
+    <div>
+      <h2>Mindfulness</h2>
+      <ul>
+        {resources.map((resource) => (
+          <li key={resource.id}>
+            <h3>Titulo: {resource.title}</h3>
+            <p>Descripcion: {resource.description}</p>
+            <a href={resource.link} target="_blank" rel="noopener noreferrer">
+              Visita la página
+            </a>
+            <p>Fecha de creación:{resource.created_at}</p>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
 
-export default MindfulnessSection;
+export default Mindfulness;
