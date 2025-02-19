@@ -91,8 +91,8 @@ const UserProfilePage = ({ params }) => {
         </div>
         <Link
           href={`/users/udp/${userData.id}`}
-          className="btn btn-outline-primary w-full mt-4"
-        >
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full mt-4 text-center transition-all duration-200"
+          >
           Editar Perfil
         </Link>
       </div>
