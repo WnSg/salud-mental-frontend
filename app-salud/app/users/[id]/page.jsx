@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // Importamos Link para crear enlaces
+import Link from "next/link"; 
 
 const UserProfilePage = ({ params }) => {
   const [unwrappedParams, setUnwrappedParams] = useState(null);
@@ -10,7 +10,7 @@ const UserProfilePage = ({ params }) => {
     const fetchParams = async () => {
       const resolvedParams = await params;
 
-      setUnwrappedParams(resolvedParams); // Almacenamos el valor de params resuelto
+      setUnwrappedParams(resolvedParams);
     };
     fetchParams();
   }, [params]);
@@ -64,7 +64,6 @@ const UserProfilePage = ({ params }) => {
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
-// console.log(userData.id)
   return (
     <div className="user-profile">
       <h2>Perfil de Usuario</h2>

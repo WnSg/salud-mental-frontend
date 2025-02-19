@@ -1,8 +1,6 @@
-"use client"
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
 import "./globals.css"; 
-import { useState } from "react";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,7 +11,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [searchQuery, setSearchQuery] = useState("");
   return (
     <html lang="es">
       <head>
@@ -25,7 +22,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${inter.className} bg-gray-100`}>
         {/* Navbar */}
-        <Navbar setSearchQuery={setSearchQuery} />
+        <Navbar/>
         {/* Contenido de la Página */}
         <main className="container mx-auto p-4">{children}</main>
 
