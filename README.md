@@ -94,4 +94,4 @@ Estas rutas solo son accesibles si el usuario ha iniciado sesión:
 
 ---
 
-Desarrollado con ❤️ por el equipo de SanaMente: Leysa Melina Pozo, Jennifer Herrera, Wolfran Noe Silva
+Desarrollado con ❤️ por el equipo Grupo 2 de SanaMente: Leysa Melina Pozo, Jennifer Herrera, Wolfran Noe Silva
