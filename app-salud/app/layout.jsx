@@ -1,37 +1,37 @@
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
-import "./globals.css";
-
+import "./globals.css"; // Asegurar que Tailwind se aplique
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Sanamente",
-  description: "Aplicacion educativa sobre salud mental",
+  description: "Aplicación educativa sobre salud mental",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
+        <meta charSet="UTF-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
         />
-         <script
+      </head>
+      <body className={`${inter.className} bg-gray-100`}>
+        {/* Navbar */}
+        <Navbar />
+
+        {/* Contenido de la Página */}
+        <main className="container mx-auto p-4">{children}</main>
+
+        {/* Íconos FontAwesome */}
+        <script
           src="https://kit.fontawesome.com/6986216daf.js"
           crossOrigin="anonymous"
+          async
         ></script>
-        
-      </head>
-      <body className={inter.className}>
-        <Navbar/>
-        {children}
-      
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-        ></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
       </body>
     </html>
   );

@@ -1,15 +1,19 @@
 import LoginForm from "@/app/components/LoginForm";
 import Link from "next/link";
- 
+
 export default function LoginPage() {
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="container relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32 text-gray-900">
-        <LoginForm/> 
-        <h4>¿No tienes cuenta?</h4>
-        <li className="nav-item">
-               <Link href="/users/register">Registrate</Link>
-          </li>
+    <main className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md">
+        <LoginForm />
+
+        {/* Enlace para registro */}
+        <p className="text-center text-gray-600 mt-4">
+          ¿No tienes cuenta? 
+          <Link href="/users/register" className="text-blue-500 hover:underline ml-1">
+            Regístrate
+          </Link>
+        </p>
       </div>
     </main>
   );

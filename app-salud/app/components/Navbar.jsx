@@ -1,17 +1,19 @@
-"use client"; 
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import UserIcon from "./UserIcon";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    setIsLoggedIn(!!token); // Si el token existe, el usuario está logueado
-  }, []); // se ejecuta una vez cuando el componente se monta
+    setIsLoggedIn(!!token);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -19,88 +21,80 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
-        <Link className="navbar-brand" href="/">
+    <nav className="bg-white shadow-md">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
           <Image
             src="/images/sanamente.png"
             alt="Logo Sanamente"
             width={100}
             height={50}
-            className="logo"
             priority
           />
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" href="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" href="/test">
-                Tests
-              </Link>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Recursos
-              </a>
-              <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" href="/recursos/estres">Estrés</Link></li>
-                <li><Link className="dropdown-item" href="/recursos/ansiedad">Ansiedad</Link></li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" href="/mindfulness">Mindfulness</Link>
-            </li>
-          </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
 
-          {/* Mostrar el icono de perfil y logout si el usuario está logueado */}
+        {/* Menú principal */}
+        <div className="hidden md:flex items-center space-x-6 text-gray-700">
+          <Link href="/" className="hover:text-blue-500 transition duration-200">
+            Home
+          </Link>
+          <Link href="/test" className="hover:text-blue-500 transition duration-200">
+            Tests
+          </Link>
+          <div className="relative">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="hover:text-blue-500 transition duration-200 focus:outline-none"
+            >
+              Recursos
+            </button>
+            {dropdownOpen && (
+              <ul className="absolute left-0 mt-2 bg-white shadow-md rounded-lg w-40 p-2 space-y-2">
+                <li>
+                  <Link href="/recursos/estres" className="block hover:text-blue-500">
+                    Estrés
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/recursos/ansiedad" className="block hover:text-blue-500">
+                    Ansiedad
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
+          <Link href="/mindfulness" className="hover:text-blue-500 transition duration-200">
+            Mindfulness
+          </Link>
+        </div>
+
+        {/* Barra de búsqueda y botones */}
+        <div className="flex items-center space-x-3">
+          <input
+            type="search"
+            placeholder="Buscar..."
+            className="border px-3 py-2 rounded-md focus:outline-none w-40 md:w-52 text-gray-700"
+          />
+          <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition text-sm flex items-center justify-center w-[90px]">
+            Buscar
+          </button>
+
+          {/* Botón de Login con icono */}
           {isLoggedIn ? (
-            <>
-              <li className="nav-item">
-                <UserIcon />
-              </li>
-              <li className="nav-item">
-                <Link href="/" onClick={handleLogout} className="btn btn-outline-danger">
-                  Salir
-                </Link>
-              </li>
-            </>
+            <button
+              onClick={handleLogout}
+              className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm w-[90px]"
+            >
+              <FaUser className="mr-2" /> Salir
+            </button>
           ) : (
-            <li className="nav-item">
-              <Link href="/users/login">Login</Link>
-            </li>
+            <Link
+              href="/users/login"
+              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm w-[90px]"
+            >
+              <FaUser className="mr-2" /> Login
+            </Link>
           )}
         </div>
       </div>
