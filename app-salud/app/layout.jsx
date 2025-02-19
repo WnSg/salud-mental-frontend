@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
-import "./globals.css"; // Asegurar que Tailwind se aplique
+import "./globals.css"; 
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${inter.className} bg-gray-100`}>
         {/* Navbar */}
-        <Navbar />
-
+        <Navbar/>
         {/* Contenido de la Página */}
         <main className="container mx-auto p-4">{children}</main>
 

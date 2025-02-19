@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import UserIcon from "./UserIcon";
 import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  // const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -52,13 +53,18 @@ const Navbar = () => {
             {dropdownOpen && (
               <ul className="absolute left-0 mt-2 bg-white shadow-md rounded-lg w-40 p-2 space-y-2">
                 <li>
-                  <Link href="/recursos/estres" className="block hover:text-blue-500">
-                    Estrés
+                  <Link href="/recursos/depresion" className="block hover:text-blue-500">
+                    Depresión
                   </Link>
                 </li>
                 <li>
                   <Link href="/recursos/ansiedad" className="block hover:text-blue-500">
                     Ansiedad
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/recursos/mindfulness" className="hover:text-blue-500 transition duration-200">
+                        Mindfulness
                   </Link>
                 </li>
               </ul>
@@ -81,7 +87,7 @@ const Navbar = () => {
           </button>
 
           {/* Botón de Login con icono */}
-          {isLoggedIn ? (
+          {/* {isLoggedIn ? (
             <button
               onClick={handleLogout}
               className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm w-[90px]"
@@ -95,6 +101,30 @@ const Navbar = () => {
             >
               <FaUser className="mr-2" /> Login
             </Link>
+          )} */}
+
+          {/* Mostrar el icono de perfil y logout si el usuario está logueado */}
+          {isLoggedIn ? (
+            <>
+              <li className="nav-item">
+                <UserIcon />
+              </li>
+              <li className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm w-[90px]">
+                <Link href="/" 
+                      onClick={handleLogout} 
+                      className="btn btn-outline-danger">
+                  Salir
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="nav-item">
+              <Link href="/users/login"
+              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm w-[90px]">
+                
+                <FaUser className="mr-2" /> Login
+              </Link>
+            </li>
           )}
         </div>
       </div>

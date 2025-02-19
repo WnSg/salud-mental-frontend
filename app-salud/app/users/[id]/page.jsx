@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // Importamos Link para crear enlaces
+import Link from "next/link";
 
 const UserProfilePage = ({ params }) => {
   const [unwrappedParams, setUnwrappedParams] = useState(null);
@@ -9,8 +9,7 @@ const UserProfilePage = ({ params }) => {
   useEffect(() => {
     const fetchParams = async () => {
       const resolvedParams = await params;
-
-      setUnwrappedParams(resolvedParams); // Almacenamos el valor de params resuelto
+      setUnwrappedParams(resolvedParams);
     };
     fetchParams();
   }, [params]);
@@ -23,14 +22,12 @@ const UserProfilePage = ({ params }) => {
   useEffect(() => {
     if (!unwrappedParams) return;
 
-    const { id } = unwrappedParams; // Accedemos al ID
+    const { id } = unwrappedParams;
 
     const fetchUserData = async () => {
-
       const token = localStorage.getItem("authToken");
-      console.log(token)
       if (!token) {
-        router.push("/users/login"); // Si no hay token, redirigir al login
+        router.push("/users/login");
         return;
       }
 
@@ -62,23 +59,43 @@ const UserProfilePage = ({ params }) => {
     fetchUserData();
   }, [unwrappedParams, router]);
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error}</p>;
-// console.log(userData.id)
-  return (
-    <div className="user-profile">
-      <h2>Perfil de Usuario</h2>
-      <p><strong>Nombre:</strong> {userData.first_name} {userData.last_name}</p>
-      <p><strong>Email:</strong> {userData.email}</p>
-      <p><strong>Edad:</strong> {userData.age}</p>
-      <p><strong>Género:</strong> {userData.gender}</p>
-      <p><strong>Nacionalidad:</strong> {userData.nationality}</p>
-      <p><strong>Registrado el:</strong> {new Date(userData.created_at).toLocaleDateString()}</p>
+  if (loading)
+    return <p className="text-center text-lg text-gray-700">Cargando...</p>;
+  if (error)
+    return <p className="text-center text-red-500 font-semibold">Error: {error}</p>;
 
-      {/* Enlace para editar los datos del usuario */}
-      <Link href={`/users/udp/${userData.id}`} className="btn btn-outline-primary">
-        Editar Perfil
-      </Link>
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Perfil de Usuario</h2>
+        <div className="mb-4">
+          <p className="text-gray-700">
+            <strong>Nombre:</strong> {userData.first_name} {userData.last_name}
+          </p>
+          <p className="text-gray-700">
+            <strong>Email:</strong> {userData.email}
+          </p>
+          <p className="text-gray-700">
+            <strong>Edad:</strong> {userData.age}
+          </p>
+          <p className="text-gray-700">
+            <strong>Género:</strong> {userData.gender}
+          </p>
+          <p className="text-gray-700">
+            <strong>Nacionalidad:</strong> {userData.nationality}
+          </p>
+          <p className="text-gray-700">
+            <strong>Registrado el:</strong>{" "}
+            {new Date(userData.created_at).toLocaleDateString()}
+          </p>
+        </div>
+        <Link
+          href={`/users/udp/${userData.id}`}
+          className="btn btn-outline-primary w-full mt-4"
+        >
+          Editar Perfil
+        </Link>
+      </div>
     </div>
   );
 };
