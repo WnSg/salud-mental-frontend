@@ -8,7 +8,6 @@ import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -86,24 +85,6 @@ const Navbar = () => {
             Buscar
           </button>
 
-          {/* Botón de Login con icono */}
-          {/* {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-sm w-[90px]"
-            >
-              <FaUser className="mr-2" /> Salir
-            </button>
-          ) : (
-            <Link
-              href="/users/login"
-              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm w-[90px]"
-            >
-              <FaUser className="mr-2" /> Login
-            </Link>
-          )} */}
-
-          {/* Mostrar el icono de perfil y logout si el usuario está logueado */}
           {isLoggedIn ? (
             <>
               <li className="nav-item">
